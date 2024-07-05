@@ -1,4 +1,4 @@
-import { Params } from "react-router-dom";
+import { Params, defer } from "react-router-dom";
 import { getPackage } from "../../api/queries/getPackage";
 import { PackageDetail } from "../../api/types/packageFull";
 
@@ -10,10 +10,10 @@ export async function detailLoader({
   params: { pkgName },
 }: {
   params: Params;
-}): Promise<DetailLoaderResult> {
+}) {
   if (!pkgName) {
     throw new Error("Package name must be provided");
   }
-  const pkgDetail = await getPackage(pkgName);
-  return { pkgDetail: pkgDetail};
+  const pkgDetail = getPackage(pkgName);
+  return defer({ pkgDetail: pkgDetail});
 }
